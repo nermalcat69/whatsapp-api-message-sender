@@ -1,5 +1,6 @@
 {
   "rewrites": [
-    { "source": "/parse-vcf", "destination": "/api/parse-vcf" }
+    { "source": "/parse-vcf", "destination": "/api/parse-vcf" },
+    { "source": "/",          "destination": "/api/index" }
   ]
 }

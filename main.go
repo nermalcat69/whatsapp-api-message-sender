@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	http.Handle("/", http.FileServer(http.Dir("public")))
+	http.HandleFunc("/", handler.Index)
 	http.HandleFunc("/parse-vcf", handler.Handler)
 
 	port := os.Getenv("PORT")
