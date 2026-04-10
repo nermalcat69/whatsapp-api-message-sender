@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
 	"strings"
 )
 
@@ -62,9 +63,7 @@ func parseVCF(data string) []Contact {
 }
 
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "index.html")
-	})
+	http.Handle("/", http.FileServer(http.Dir("public")))
 
 	http.HandleFunc("/parse-vcf", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
@@ -97,6 +96,10 @@ func main() {
 		json.NewEncoder(w).Encode(contacts)
 	})
 
-	fmt.Println("Server running at http://localhost:6979")
-	http.ListenAndServe(":6979", nil)
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "6979"
+	}
+	fmt.Printf("Server running at http://localhost:%s\n", port)
+	http.ListenAndServe(":"+port, nil)
 }
